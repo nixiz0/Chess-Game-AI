@@ -16,7 +16,7 @@ IMAGES = {}
 def load_images():
     pieces = ['wp', 'wR', 'wN', 'wB', 'wK', 'wQ', 'bp', 'bR', 'bN', 'bB', 'bK', 'bQ',]
     for piece in pieces:
-        IMAGES[piece] = p.transform.scale(p.image.load("chess/assets/" + piece + ".png"), (SQSIZE, SQSIZE))
+        IMAGES[piece] = p.transform.scale(p.image.load("chess/assets/pieces/" + piece + ".png"), (SQSIZE, SQSIZE))
 
 """ 
 User input & update the board : 
