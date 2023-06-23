@@ -13,12 +13,6 @@ class GameState():
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"],
         ]
         
-        flipped_board = [row[::-1] for row in self.board[::-1]]
-
-        # Print the flipped and inverted board and Queen and King side
-        for row in flipped_board:
-            print(row)
-        
         self.moveFunctions = {'p': self.getPawnMoves, 'R': self.getRookMoves, 'N': self.getKnightMoves, 
                               'B': self.getBishopMoves, 'Q': self.getQueenMoves, 'K': self.getKingMoves}
         
