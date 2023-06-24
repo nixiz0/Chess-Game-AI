@@ -88,26 +88,25 @@ class Main():
             mouse_pos = p.mouse.get_pos()
             if black_button.collidepoint(mouse_pos):
                 if p.mouse.get_pressed()[0]:
-                    print("Black button clicked")
+                    # Black button clicked
                     # start the game black (reverse the board)
-                    # playerOne : False
-                    # playerTwo : True
+                    # playerOne : False & playerTwo : True
+                    self.main_game(playerOne=False, playerTwo=True)
                     flip_board = game_state.flip_board(board)
                     print(flip_board)
-                    self.main_game(playerOne=False, playerTwo=True)
 
             if white_button.collidepoint(mouse_pos):
                 if p.mouse.get_pressed()[0]:
-                    print("White button clicked")
+                    # White button clicked
                     # start the game
-                    # playerOne : True
-                    # playerTwo : False
+                    # playerOne : True & playerTwo : False
                     self.main_game(playerOne=True, playerTwo=False)
                     
             if button_pvp.collidepoint(mouse_pos):
                 if p.mouse.get_pressed()[0]:
-                    print("Button PVP clicked")
+                    # Button PVP clicked
                     # start the game
+                    # playerOne : True & playerTwo : True
                     self.main_game(playerOne=True, playerTwo=True)
 
             # Update the display
@@ -173,6 +172,7 @@ class Main():
                 elif e.type == p.KEYDOWN:
                     if e.key == p.K_z:
                         # undo press Z
+                        game_state.undo_move()
                         moveMade = True
                         animate = False
                         gameOver = False
