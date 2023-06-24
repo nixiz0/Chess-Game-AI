@@ -34,6 +34,11 @@ class GameState():
         # self.threatens = [][]
         # self.squaresCanMoveTo = [][]
         
+    # reverse the board
+    def flip_board(self, board):
+        flipped_board = [row[::-1] for row in board[::-1]]
+        return flipped_board
+        
     def make_move(self, move):
         self.board[move.initialRow][move.initialCol] = "--"
         self.board[move.finalRow][move.finalCol] = move.pieceMoved

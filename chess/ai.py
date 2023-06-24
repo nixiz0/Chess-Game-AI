@@ -104,7 +104,7 @@ class AI():
         return bestPlayerMove
     
     """ Helper method to make first recursive call """
-    def findBestMove(game_state, validMoves, returnQueue):
+    def findBestMove(game_state, validMoves):
         global nextMove, counter
         nextMove = None
         counter = 0
@@ -112,7 +112,7 @@ class AI():
         # findMoveNegaMax(game_state, validMoves, DEPTH, 1 if game_state.whiteToMove else -1)
         findMoveNegaMaxAlphaBeta(game_state, validMoves, DEPTH, -CHECKMATE, CHECKMATE, 1 if game_state.whiteToMove else -1)
         print(counter)
-        returnQueue.put(nextMove)
+        return nextMove
     
 def findMoveMinMax(game_state, validMoves, depth, whiteToMove):
     global nextMove 
@@ -228,3 +228,4 @@ def scoreMaterial(board):
                 score -= pieceScore[square[1]]
             
     return score
+
