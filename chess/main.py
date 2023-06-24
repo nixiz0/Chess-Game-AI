@@ -173,7 +173,6 @@ class Main():
                 elif e.type == p.KEYDOWN:
                     if e.key == p.K_z:
                         # undo press Z
-                        game_state.undo_move()
                         moveMade = True
                         animate = False
                         gameOver = False
@@ -189,7 +188,7 @@ class Main():
                         moveMade = False
                         animate = False
                         gameOver = False
-                        moveUndone = True
+                        moveUndone = False
                         
                     if e.key == p.K_m:
                         # restart press M
@@ -200,8 +199,8 @@ class Main():
             # AI Move
             if not gameOver and not humanTurn and not moveUndone:
                 AIMove = AI.findBestMove(game_state, validMoves)
-                # if AIMove is None:
-                #     AIMove = AI.findRandomMove(validMoves)
+                if AIMove is None:
+                    AIMove = AI.findRandomMove(validMoves)
                 game_state.make_move(AIMove)
                 moveMade = True
                 animate = True
