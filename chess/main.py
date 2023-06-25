@@ -13,6 +13,14 @@ MOVE_LOG_PANEL_HEIGHT = BOARD_HEIGHT
 MAX_FPS = 15 # for animation
 IMAGES = {}
 
+color1 = p.Color("Tan")
+color2 = p.Color("Sienna")
+color3 = p.Color("PapayaWhip")
+color4 = p.Color("CornflowerBlue")
+color5 = p.Color("light grey")
+color6 = p.Color("dim grey")
+board_colors = [color5, color6] # Default colors
+
 class Main():
     def __init__(self):
         p.init()
@@ -53,18 +61,18 @@ class Main():
             # Blit the background image onto the screen
             self.screen.blit(background_image, (0, 0))
 
-            # Calculer les positions verticales des boutons
+            # Calculs of verticals positions of buttons
             first_button_y = (BOARD_HEIGHT - (BUTTON_HEIGHT * 4 + BUTTON_SPACING * 3)) // 2
             black_button_y = first_button_y
             white_button_y = black_button_y + BUTTON_HEIGHT + BUTTON_SPACING
             button_pvp_y = white_button_y + BUTTON_HEIGHT + BUTTON_SPACING
 
-            # Dessiner les boutons
+            # Draw buttons
             black_button = p.draw.rect(self.screen, BLACK, (BUTTON_X, black_button_y, BUTTON_WIDTH, BUTTON_HEIGHT))
             white_button = p.draw.rect(self.screen, WHITE, (BUTTON_X, white_button_y, BUTTON_WIDTH, BUTTON_HEIGHT))
             button_pvp = p.draw.rect(self.screen, p.Color('gray'), (BUTTON_X, button_pvp_y, BUTTON_WIDTH, BUTTON_HEIGHT))
 
-            # Dessiner les libellés des boutons
+            # Draw buttons labels
             black_text = font.render("AI", True, WHITE)
             black_text_rect = black_text.get_rect(center=(BUTTON_X + BUTTON_WIDTH // 2, black_button_y + BUTTON_HEIGHT // 2))
             self.screen.blit(black_text, black_text_rect)
@@ -138,6 +146,7 @@ class Main():
         gameOver = False
         moveUndone = False
         menu = self.show_menu()
+        color_state = 0 # Actual state of colors
         while running:
             humanTurn = (game_state.whiteToMove and playerOne) or (not game_state.whiteToMove and playerTwo)
             for e in p.event.get():
@@ -197,6 +206,16 @@ class Main():
                         self.menu_active = True
                         self.screen = p.display.set_mode((BOARD_WIDTH + 0, BOARD_HEIGHT))
                         return
+                    
+                    if e.key == p.K_a:
+                        global board_colors
+                        color_state = (color_state + 1) % 3  # Change state of colors
+                        if color_state == 0:
+                            board_colors = [color5, color6]
+                        elif color_state == 1:
+                            board_colors = [color1, color2]
+                        else:
+                            board_colors = [color3, color4]
                             
             # AI Move
             if not gameOver and not humanTurn and not moveUndone:
@@ -241,12 +260,10 @@ class Main():
         self.drawMoveLog(screen, game_state, moveLogFont)
         
     def draw_board(self, screen):
-        global colors
-        colors = [p.Color("light grey"), p.Color("dim grey")] # Color of board
         for r in range(DIMENSION):
             for c in range(DIMENSION):
-                color = colors[((r+c) % 2)] 
-                p.draw.rect(screen, color, p.Rect(c * SQSIZE, r * SQSIZE, SQSIZE, SQSIZE)) # Draw
+                color = board_colors[((r+c) % 2)]
+                p.draw.rect(screen, color, p.Rect(c * SQSIZE, r * SQSIZE, SQSIZE, SQSIZE))
         
     """ Highlight square selected and moves for piece """
     def highlightSquares(self, screen, game_state, validMoves, sqSelected):
@@ -304,7 +321,7 @@ class Main():
             
     """ Animating a move """ 
     def animateMove(self, move, screen, board, clock):
-        global colors
+        global board_colors
         dR = move.finalRow - move.initialRow
         dC = move.finalCol - move.initialCol
         framesPerSquare = 5 # frames to move one square
@@ -314,7 +331,7 @@ class Main():
             self.draw_board(self.screen)
             self.draw_pieces(self.screen, board)
             # erase piece moved from ending square
-            color = colors[(move.finalRow + move.finalCol) % 2]
+            color = board_colors[(move.finalRow + move.finalCol) % 2]
             finalSquare = p.Rect(move.finalCol * SQSIZE, move.finalRow * SQSIZE, SQSIZE, SQSIZE)
             p.draw.rect(self.screen, color, finalSquare)
             # draw captured piece
