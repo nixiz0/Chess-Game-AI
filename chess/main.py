@@ -101,8 +101,6 @@ class Main():
                     # start the game black (reverse the board)
                     # playerOne : False & playerTwo : True
                     self.main_game(playerOne=False, playerTwo=True)
-                    flip_board = game_state.flip_board(game_state.board)
-                    print(flip_board)
 
             if white_button.collidepoint(mouse_pos):
                 if p.mouse.get_pressed()[0]:
