@@ -130,33 +130,28 @@ class GameState():
             self.currentCastlingRight.bqs = False
         elif move.pieceMoved == 'wR':
             if move.initialRow == 7:
-                # left rook
                 if move.initialCol == 0:
                     self.currentCastlingRight.wqs = False
-                # right rook
                 elif move.initialCol == 7:
                     self.currentCastlingRight.wks = False
         elif move.pieceMoved == 'bR':
             if move.initialRow == 0:
-                # left rook
                 if move.initialCol == 0:
                     self.currentCastlingRight.bqs = False
-                # right rook
                 elif move.initialCol == 7:
                     self.currentCastlingRight.bks = False
-        # if a rook is captured
-        if move.pieceCaptured == 'wR':
-            if move.finalRow == 7:
-                if move.finalCol == 0:
-                    self.currentCastlingRight.wqs = False
-                elif move.finalCol == 7:
-                    self.currentCastlingRight.wks = False
-        elif move.pieceCaptured == 'bR':
-            if move.finalRow == 0:
-                if move.finalCol == 0:
-                    self.currentCastlingRight.bqs = False
-                elif move.finalCol == 7:
-                    self.currentCastlingRight.bks = False
+                    
+        # Check if a rook is captured
+        if move.pieceCaptured == 'wR' and move.finalRow == 7:
+            if move.finalCol == 0:
+                self.currentCastlingRight.wqs = False
+            elif move.finalCol == 7:
+                self.currentCastlingRight.wks = False
+        elif move.pieceCaptured == 'bR' and move.finalRow == 0:
+            if move.finalCol == 0:
+                self.currentCastlingRight.bqs = False
+            elif move.finalCol == 7:
+                self.currentCastlingRight.bks = False
                 
     """ All moves considering checks """
     def get_valid_moves(self):
