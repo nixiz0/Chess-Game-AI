@@ -30,10 +30,6 @@ class GameState():
         self.castleRightsLog = [CastleRights(self.currentCastlingRight.wks, self.currentCastlingRight.bks, 
                                              self.currentCastlingRight.wqs, self.currentCastlingRight.bqs)]
         
-        # self.protects = [][]
-        # self.threatens = [][]
-        # self.squaresCanMoveTo = [][]
-        
     def make_move(self, move):
         self.board[move.initialRow][move.initialCol] = "--"
         self.board[move.finalRow][move.finalCol] = move.pieceMoved
