@@ -69,98 +69,15 @@ class AI():
 
     def findRandomMove(validMoves):
         return validMoves[random.randint(0, len(validMoves) - 1)]
-      
-    # find best move min max, without recursion
-    def findBestMoveMinMaxNoRecursion(game_state, validMoves):
-        turnColor = 1 if game_state.whiteToMove else -1
-        opponentMinMaxScore = CHECKMATE 
-        bestPlayerMove = None
-        random.shuffle(validMoves)
-        for playerMove in validMoves:
-            game_state.make_move(playerMove)
-            opponentMoves = game_state.get_valid_moves()
-            if game_state.stalemate:
-                opponentMaxScore = STALEMATE
-            elif game_state.checkmate:
-                opponentMaxScore = -CHECKMATE
-            else: 
-                opponentMaxScore = -CHECKMATE
-                for opponentMove in opponentMoves:
-                    game_state.make_move(opponentMove)
-                    game_state.get_valid_moves()
-                    if game_state.checkmate:
-                        score = CHECKMATE 
-                    elif game_state.stalemate:
-                        score = STALEMATE
-                    else: 
-                        score = -turnColor * scoreMaterial(game_state.board)
-                    if score > opponentMaxScore:
-                        opponentMaxScore = score
-                    game_state.undo_move()
-            if opponentMaxScore < opponentMinMaxScore:
-                opponentMinMaxScore = opponentMaxScore
-                bestPlayerMove = playerMove
-            game_state.undo_move()
-        return bestPlayerMove
     
     """ Helper method to make first recursive call """
     def findBestMove(game_state, validMoves):
         global nextMove, counter
         nextMove = None
         counter = 0
-        # findMoveMinMax(game_state, validMoves, DEPTH, game_state.whiteToMove)
-        # findMoveNegaMax(game_state, validMoves, DEPTH, 1 if game_state.whiteToMove else -1)
         findMoveNegaMaxAlphaBeta(game_state, validMoves, DEPTH, -CHECKMATE, CHECKMATE, 1 if game_state.whiteToMove else -1)
         print(counter)
         return nextMove
-    
-def findMoveMinMax(game_state, validMoves, depth, whiteToMove):
-    global nextMove 
-    if depth ==0:
-        return scoreMaterial(game_state.board)
-    
-    if whiteToMove:
-        maxScore = -CHECKMATE
-        for move in validMoves:
-            game_state.make_move(move)
-            nextMoves = game_state.get_valid_moves()
-            score = findMoveMinMax(game_state, nextMoves, depth - 1, False)
-            if score > maxScore:
-                maxScore = score
-                if depth == DEPTH:
-                    nextMoves = move
-            game_state.undo_move()
-        return maxScore
-    else: 
-        minScore = CHECKMATE
-        for move in validMoves:
-            game_state.make_move(move)
-            nextMoves = game_state.get_valid_moves()
-            score = findMoveMinMax(game_state, nextMoves, depth - 1, True)
-            if score < minScore: 
-                minScore = score
-                if depth == DEPTH:
-                    nextMove = move
-            game_state.undo_move()
-        return minScore
-
-def findMoveNegaMax(game_state, validMoves, depth, turnColor):
-    global nextMove, counter
-    counter += 1
-    if depth ==0:
-        return turnColor * scoreBoard(game_state)
-    
-    maxScore = -CHECKMATE
-    for move in validMoves:
-        game_state.make_move(move)
-        nextMoves = game_state.get_valid_moves()
-        score = -findMoveNegaMax(game_state, nextMoves, depth - 1, -turnColor)
-        if score > maxScore:
-            maxScore = score
-            if depth == DEPTH:
-                nextMove = move
-        game_state.undo_move()
-    return maxScore
 
 def findMoveNegaMaxAlphaBeta(game_state, validMoves, depth, alpha, beta, turnColor):
     global nextMove, counter
@@ -216,16 +133,3 @@ def scoreBoard(game_state):
                     score -= pieceScore[square[1]] + piecePositionScore * .1
             
     return score
-    
-""" Score the board on material """
-def scoreMaterial(board):
-    score = 0
-    for row in board:
-        for square in row:
-            if square[0] == 'w':
-                score += pieceScore[square[1]]
-            elif square[0] == 'b':
-                score -= pieceScore[square[1]]
-            
-    return score
-
