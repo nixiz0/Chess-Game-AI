@@ -23,6 +23,7 @@ class Main():
         p.display.set_caption("ChessItium AI Game")
         game_state = GameState()
         board = game_state.board
+        self.lastMove = None
         playerOne = True # If human playing white then will be True
         playerTwo = False # Same as above but for black
         # Load the chessboard background image
@@ -189,6 +190,7 @@ class Main():
                         animate = False
                         gameOver = False
                         moveUndone = False
+                        self.lastMove = None
                         
                     if e.key == p.K_m:
                         # restart press M
@@ -212,6 +214,8 @@ class Main():
                 moveMade = False
                 animate = False
                 moveUndone = False
+                 # Set the last move to the latest move made
+                self.lastMove = game_state.moveLog[-1] if game_state.moveLog else None
                 
             self.draw_game_state(self.screen, game_state, validMoves, sqSelected, moveLogFont)
             
@@ -251,14 +255,21 @@ class Main():
             # sqSelected is a piece that can be moved
             if game_state.board[r][c][0] == ('w' if game_state.whiteToMove else 'b'):
                 s = p.Surface((SQSIZE, SQSIZE))
-                s.set_alpha(100) # transperancy value
-                s.fill(p.Color('blue')) # choice color
+                s.set_alpha(100)  # transparency value
+                s.fill(p.Color('blue'))  # choice color
                 self.screen.blit(s, (c * SQSIZE, r * SQSIZE))
                 # highlight move from that square
-                s.fill(p.Color('green')) # choice color
+                s.fill(p.Color('green'))  # choice color
                 for move in validMoves:
-                    if move.initialRow == r and move.initialCol == c: 
+                    if move.initialRow == r and move.initialCol == c:
                         self.screen.blit(s, (move.finalCol * SQSIZE, move.finalRow * SQSIZE))
+
+        if self.lastMove is not None:  # Highlight the last move
+            s = p.Surface((SQSIZE, SQSIZE))
+            s.set_alpha(100)  # transparency value
+            s.fill(p.Color('yellow'))  # choice color
+            self.screen.blit(s, (self.lastMove.initialCol * SQSIZE, self.lastMove.initialRow * SQSIZE))
+            self.screen.blit(s, (self.lastMove.finalCol * SQSIZE, self.lastMove.finalRow * SQSIZE))
                         
     def draw_pieces(self, screen, board):
         for r in range(DIMENSION):
