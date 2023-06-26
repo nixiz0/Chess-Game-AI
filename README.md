@@ -1,4 +1,5 @@
 # Chess Game (with AI)
+Welcome to ChessItium Game !
 
 Here is a chess game where you can choose to play in `1 VS 1` with a friend or you `against an AI`
 
