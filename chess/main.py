@@ -285,6 +285,13 @@ class Main():
             s.fill(p.Color('yellow'))  # choice color
             self.screen.blit(s, (self.lastMove.initialCol * SQSIZE, self.lastMove.initialRow * SQSIZE))
             self.screen.blit(s, (self.lastMove.finalCol * SQSIZE, self.lastMove.finalRow * SQSIZE))
+            
+        if game_state.inCheck:
+            kingRow, kingCol = game_state.whiteKingLocation if game_state.whiteToMove else game_state.blackKingLocation
+            s = p.Surface((SQSIZE, SQSIZE))
+            s.set_alpha(100)  # transparency value
+            s.fill(p.Color('red'))  # choice color
+            self.screen.blit(s, (kingCol * SQSIZE, kingRow * SQSIZE))
                         
     def draw_pieces(self, screen, board):
         for r in range(DIMENSION):
