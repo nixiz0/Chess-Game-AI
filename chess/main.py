@@ -1,7 +1,7 @@
 import pygame as p 
 import sys
-from game import *
-from ai import *
+from chess.game import *
+from chess.ai import *
 
 
 BOARD_WIDTH = 648
@@ -358,6 +358,3 @@ class Main():
         self.screen.blit(textObject, textLocation)
         textObject = font.render(text, 5, p.Color("green"))
         self.screen.blit(textObject, textLocation.move(3, 2))
-    
-main = Main()
-main.show_menu()

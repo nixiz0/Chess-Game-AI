@@ -1,6 +1,6 @@
-import subprocess
 import pygame as p
 import sys
+from chess.main import Main
 
 
 # Screen dimensions 
@@ -69,6 +69,7 @@ class Menu():
 
         # Close the menu and launch the game
         p.quit()
-        subprocess.run(["python", "./chess/main.py"])
+        main = Main()
+        main.show_menu()
 
 Menu()
